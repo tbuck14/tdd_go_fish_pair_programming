@@ -16,6 +16,7 @@ class SocketServer
     def accept_client()
         client = server.accept_nonblock
         clients.push(client)
+        welcome_client_get_name(client)
     rescue IO::WaitReadable
         'no client'
     end
@@ -35,6 +36,9 @@ class SocketServer
 
     end
 
+    
+
+    #PRIVATE HELPER METHODS
     def welcome_client_get_name(client)
         client.puts('Welcome! enter name: ')
         name = ''
@@ -43,7 +47,5 @@ class SocketServer
         end
         name
     end
-
-    #PRIVATE HELPER METHODS
-
+    private :welcome_client_get_name
 end
