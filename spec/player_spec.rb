@@ -59,5 +59,10 @@ describe 'Player' do
             player = Player.new(cards)
             expect(player.try_to_lay_book()).to eq 'K'
         end
+        it 'returns nil if the player has not layed a book' do 
+            cards = [Card.new('K'),Card.new('K'),Card.new('K')]
+            player = Player.new(cards)
+            expect(player.try_to_lay_book()).to eq nil
+        end
     end
 end

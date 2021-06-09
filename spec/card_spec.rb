@@ -10,6 +10,5 @@ describe "Card" do
             card = Card.new('J')
             expect(card.value).to eq 10
         end
-        
     end
 end
