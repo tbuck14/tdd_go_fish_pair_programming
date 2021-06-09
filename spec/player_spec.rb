@@ -40,4 +40,24 @@ describe 'Player' do
             expect(player.cards_left).to eq 2
         end
     end
+
+    context '#try_to_lay_book' do 
+        it 'looks for a book and removes it from hand' do 
+            cards = [Card.new('K'),Card.new('K'),Card.new('K'),Card.new('K')]
+            player = Player.new(cards)
+            player.try_to_lay_book()
+            expect(player.hand).to eq []
+        end
+        it 'increments score if a book is layed' do 
+            cards = [Card.new('K'),Card.new('K'),Card.new('K'),Card.new('K')]
+            player = Player.new(cards)
+            player.try_to_lay_book()
+            expect(player.score).to eq 1
+        end
+        it 'returns a rank if the player has layed a book' do 
+            cards = [Card.new('K'),Card.new('K'),Card.new('K'),Card.new('K')]
+            player = Player.new(cards)
+            expect(player.try_to_lay_book()).to eq 'K'
+        end
+    end
 end

@@ -1,7 +1,9 @@
 class Player
-    attr_reader :hand
+    attr_reader :hand, :score
+    RANKS = ['2','3','4','5','6','7','8','9','10','J','Q','K','A']
     def initialize(hand = [])
         @hand = hand
+        @score = 0 
     end
 
     def add_cards_to_hand(cards)
@@ -14,13 +16,41 @@ class Player
         cards_to_return
     end
 
+    def try_to_lay_book()
+        book = nil
+        RANKS.each do |rank|
+            book = search_for_rank(rank)
+            break if book != nil
+        end 
+        book
+    end
+
     def cards_left()
         hand.count
     end 
 
+
+
+    #PRIVATE METHODS 
     def set_hand(new_hand)
         @hand = new_hand
     end
 
-    private :set_hand
+    def increase_score()
+        @score += 1
+    end
+
+    def lay_book(book)
+        set_hand(hand - book)
+    end
+    def search_for_rank(rank)
+        matching_cards = hand.reject {|card| card.rank != rank}
+        if (matching_cards).count == 4
+            increase_score
+            lay_book(matching_cards)
+            return matching_cards[0].rank
+        end
+    end
+
+    private :set_hand, :increase_score, :search_for_rank
 end
