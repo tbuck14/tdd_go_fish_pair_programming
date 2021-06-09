@@ -32,7 +32,7 @@ class SocketServer
     end
 
     def create_gameInterface_if_possible()
-        
+
     end
 
     def welcome_client_get_name(client)
