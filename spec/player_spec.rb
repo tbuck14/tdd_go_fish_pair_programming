@@ -2,7 +2,7 @@ require 'player'
 
 describe 'Player' do 
 
-    context '#take_cards' do 
+    context '#add_cards_to_hand' do 
         it 'pushes an array of cards onto the players hand' do
             player = Player.new()
             card = Card.new('J')
@@ -19,7 +19,18 @@ describe 'Player' do
         end
     end
     context '#give_cards' do 
-        
+        it 'removes cards that match the given rank from the hand' do 
+            cards = [Card.new('J'),Card.new('Q'),Card.new('Q')]
+            player = Player.new(cards)
+            player.give_cards('Q')
+            expect(player.hand).to eq [cards[0]]
+        end
+        it 'returns cards that match the rank' do 
+            cards = [Card.new('K'),Card.new('Q'),Card.new('K'),Card.new('K')]
+            player = Player.new(cards)
+            cards_given = player.give_cards('K')
+            expect(cards_given).to eq cards.reject {|card| card.rank != 'K'}
+        end
     end
     context '#cards_left' do 
         it 'returns the number of cards in a players hand' do 
