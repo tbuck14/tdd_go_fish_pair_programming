@@ -28,15 +28,20 @@ class SocketServer
         sleep(0.1)
         client.read_nonblock(1000).chomp
     rescue IO::WaitReadable
-        'no message'
+        ''
     end
 
     def create_gameInterface_if_possible()
-
+        
     end
 
-    def welcome_client_get_name()
-        
+    def welcome_client_get_name(client)
+        client.puts('Welcome! enter name: ')
+        name = ''
+        until name != '' 
+            name = server.read_message(client) 
+        end
+        name
     end
 
     #PRIVATE HELPER METHODS
