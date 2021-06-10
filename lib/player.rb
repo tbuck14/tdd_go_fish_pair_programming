@@ -1,9 +1,10 @@
 class Player
-    attr_reader :hand, :score
+    attr_reader :hand, :score, :name
     RANKS = ['2','3','4','5','6','7','8','9','10','J','Q','K','A']
-    def initialize(hand = [])
+    def initialize(name = 'randomPlayer',hand = [])
         @hand = hand
         @score = 0 
+        @name = name
     end
 
     def add_cards_to_hand(cards)

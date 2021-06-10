@@ -13,14 +13,18 @@ describe "SocketServer" do
     context '#accept_client' do 
         it 'accepts a client' do 
             client = TCPSocket.new('localhost',server.port_number)
-            socket = server.accept_client
-            expect(server.clients.count).to eq 1
+            clients.push(client)
+            client.puts('Trevor')
+            server.accept_client
+            expect(server.people[0].name).to eq "Trevor"
+            expect(server.people.count).to eq 1
         end
     end
 
     context '#read_message' do 
         it 'read message from client' do 
             client = TCPSocket.new('localhost',server.port_number)
+            clients.push(client)
             socket = server.server.accept_nonblock
             client.puts('whatever')
             expect(server.read_message(socket)).to eq 'whatever'
@@ -30,6 +34,7 @@ describe "SocketServer" do
     context '#send_message' do 
         it 'send message to client' do 
             client = TCPSocket.new('localhost',server.port_number)
+            clients.push(client)
             socket = server.server.accept_nonblock
             server.send_message(socket,'hello player')
             expect(client.gets.chomp).to eq 'hello player'

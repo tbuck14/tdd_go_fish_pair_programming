@@ -1,8 +1,9 @@
+require_relative 'person'
 class SocketServer
-    attr_reader :server, :clients
+    attr_reader :server, :people
     def initialize()
         @server = TCPServer.new('localhost',port_number)
-        @clients = []
+        @people = []
     end
 
     def stop()
@@ -15,8 +16,9 @@ class SocketServer
 
     def accept_client()
         client = server.accept_nonblock
-        clients.push(client)
-        welcome_client_get_name(client)
+        name = welcome_client_get_name(client)
+        person = Person.new(client,name)
+        people.push(person)
     rescue IO::WaitReadable
         'no client'
     end
@@ -33,17 +35,17 @@ class SocketServer
     end
 
     def create_gameInterface_if_possible()
-
+        
     end
 
-    
+
 
     #PRIVATE HELPER METHODS
     def welcome_client_get_name(client)
         client.puts('Welcome! enter name: ')
         name = ''
         until name != '' 
-            name = server.read_message(client) 
+            name = read_message(client) 
         end
         name
     end

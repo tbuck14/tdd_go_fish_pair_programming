@@ -21,13 +21,13 @@ describe 'Player' do
     context '#give_cards' do 
         it 'removes cards that match the given rank from the hand' do 
             cards = [Card.new('J'),Card.new('Q'),Card.new('Q')]
-            player = Player.new(cards)
+            player = Player.new('trevor',cards)
             player.give_cards('Q')
             expect(player.hand).to eq [cards[0]]
         end
         it 'returns cards that match the rank' do 
             cards = [Card.new('K'),Card.new('Q'),Card.new('K'),Card.new('K')]
-            player = Player.new(cards)
+            player = Player.new("trevor",cards)
             cards_given = player.give_cards('K')
             expect(cards_given).to eq cards.reject {|card| card.rank != 'K'}
         end
@@ -44,24 +44,24 @@ describe 'Player' do
     context '#try_to_lay_book' do 
         it 'looks for a book and removes it from hand' do 
             cards = [Card.new('K'),Card.new('K'),Card.new('K'),Card.new('K')]
-            player = Player.new(cards)
+            player = Player.new("trevor",cards)
             player.try_to_lay_book()
             expect(player.hand).to eq []
         end
         it 'increments score if a book is layed' do 
             cards = [Card.new('K'),Card.new('K'),Card.new('K'),Card.new('K')]
-            player = Player.new(cards)
+            player = Player.new("trevor",cards)
             player.try_to_lay_book()
             expect(player.score).to eq 1
         end
         it 'returns a rank if the player has layed a book' do 
             cards = [Card.new('K'),Card.new('K'),Card.new('K'),Card.new('K')]
-            player = Player.new(cards)
+            player = Player.new("trevor",cards)
             expect(player.try_to_lay_book()).to eq 'K'
         end
         it 'returns nil if the player has not layed a book' do 
             cards = [Card.new('K'),Card.new('K'),Card.new('K')]
-            player = Player.new(cards)
+            player = Player.new("trevor",cards)
             expect(player.try_to_lay_book()).to eq nil
         end
     end
