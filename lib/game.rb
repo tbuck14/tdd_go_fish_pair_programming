@@ -13,8 +13,14 @@ class Game
         end
     end
 
-    def play_turn()
+    def player_asks_for_card(player,card_rank,player_asked)
+        player_asked.give_cards(card_rank)
+    end
 
+    def player_go_fish(player)
+        card = deck.deal
+        player.add_cards_to_hand([card])
+        card
     end
 
     def winners()
@@ -34,5 +40,4 @@ class Game
         end
         total_score == 13
     end
-    
 end

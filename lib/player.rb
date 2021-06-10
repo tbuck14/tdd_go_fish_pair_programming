@@ -35,7 +35,6 @@ class Player
         @score += 1
     end
 
-
     #PRIVATE HELPER METHODS 
     def set_hand(new_hand)
         @hand = new_hand
