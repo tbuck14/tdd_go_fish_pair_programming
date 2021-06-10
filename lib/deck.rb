@@ -4,6 +4,7 @@ class Deck
     def initialize()
         @cards  = []
         build_deck
+        cards.shuffle!
     end
 
     def deal()

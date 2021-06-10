@@ -31,6 +31,9 @@ class Player
         hand.count
     end 
 
+    def increase_score()
+        @score += 1
+    end
 
 
     #PRIVATE HELPER METHODS 
@@ -38,9 +41,7 @@ class Player
         @hand = new_hand
     end
 
-    def increase_score()
-        @score += 1
-    end
+    
 
     def lay_book(book)
         set_hand(hand - book)
@@ -55,5 +56,5 @@ class Player
         end
     end
 
-    private :set_hand, :increase_score, :search_for_rank, :lay_book
+    private :set_hand, :search_for_rank, :lay_book
 end
