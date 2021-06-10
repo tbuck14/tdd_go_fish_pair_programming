@@ -61,6 +61,11 @@ describe 'Game' do
             cards_returned = game.player_asks_for_card(game.players[0],'A',game.players[1])
             expect(cards_returned.count).to eq 3
         end
+        it 'adds asked for cards (if any) to the players hand' do 
+            game.players[0].add_cards_to_hand([Card.new('A'),Card.new('A'),Card.new('A'),Card.new('K')])
+            game.player_asks_for_card(game.players[1], 'A',game.players[0])
+            expect(game.players[1].hand.count).to eq 3
+        end
     end
 
 end

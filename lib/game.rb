@@ -14,7 +14,9 @@ class Game
     end
 
     def player_asks_for_card(player,card_rank,player_asked)
-        player_asked.give_cards(card_rank)
+        cards = player_asked.give_cards(card_rank)
+        player.add_cards_to_hand(cards)
+        cards
     end
 
     def player_go_fish(player)
