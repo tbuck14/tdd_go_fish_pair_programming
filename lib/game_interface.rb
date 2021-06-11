@@ -1,8 +1,9 @@
 class GameInterface
-    attr_reader :people, :game, :server
+    attr_reader :people, :game, :server, :name_to_person
     def initialize(people, server)
         @people = people
         @server = server
+        @name_to_person = hash_names_to_people
         @game = Game.new(get_players)
         @turn_info = ""
     end
@@ -19,6 +20,7 @@ class GameInterface
         game.start
         until game.game_over? do
             game.people.each do |person|
+                server.send_message(person.client, "HAND: #{person.player.display_hand}")
                 take_turn(person)
             end
         end
@@ -36,5 +38,10 @@ class GameInterface
     def ask_for_card(person)
 
     end
-    
+
+    def hash_names_to_people()
+        name_hash = {}
+        people.each {|person| name_hash[person.name] = person}
+        name_hash
+    end
 end

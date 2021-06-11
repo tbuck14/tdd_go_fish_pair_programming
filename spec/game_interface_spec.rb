@@ -23,6 +23,7 @@ describe 'GameInterface' do
             people = [MockPerson.new(person,'trevor'),MockPerson.new(Player.new(),'stephen'),MockPerson.new(Player.new(),'roy')]
             game_interface = GameInterface.new(people, 'server')
             expect(game_interface.get_player_names(person)).to match_array(['stephen','roy'])
+            
         end
     end
 end
