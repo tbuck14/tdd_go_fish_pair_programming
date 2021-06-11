@@ -34,7 +34,7 @@ class GameInterface
         end
         player_asked = ask_for_player(person)
         card_asked_for = ask_for_card(person)
-        get_result(person,player_asked,card_asked_for)
+        ask_player(person,player_asked,card_asked_for)
     end
 
     def ask_player(person, asked_player, card_asked)
@@ -78,6 +78,10 @@ class GameInterface
     end
 
     def wait_for_response(person)
-
+        response = ""
+        until response != "" do 
+            server.read_message(person.client)
+        end
+        response
     end
 end

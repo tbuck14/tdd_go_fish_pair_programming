@@ -1,8 +1,10 @@
 require_relative 'person'
+require 'socket'
 class SocketServer
     attr_reader :server, :people, :game_interfaces
     def initialize()
         @server = TCPServer.new('localhost',port_number)
+        puts "Server Started"
         @people = []
         @game_interfaces = []
     end
