@@ -32,7 +32,12 @@ class GameInterface
         reset_turn_info
         server.send_message(person.client, "HAND: #{person.player.display_hand}")
         attempt_to_lay_book(person)
-        player_asked = ask_for_player(person)
+        ask_person_for_info(person) if person.player.hand != []
+        player_go_fish(person.player) if person.player.hand == []
+    end
+
+    def ask_person_for_info(person)
+        player_asked = ask_for_player(person) 
         card_asked_for = ask_for_card(person)
         set_turn_info("#{person.name} asked #{player_asked.name} for a #{card_asked_for} ")
         get_cards(person,card_asked_for,player_asked)
@@ -48,9 +53,9 @@ class GameInterface
     def get_cards(person,card_asked, asked_player)
         cards_awarded = game.player_asks_for_card(person.player,card_asked,asked_player)
         set_turn_info("and got #{cards_awarded.count}") if cards_awarded != []
-        cards_awarded = game.player_go_fish(person.player) if cards_awarded == [] 
+        player_go_fish(person.player) if cards_awarded == [] 
         provide_turn_information
-        take_turn(person) if game.got_card_asked_for(cards_awarded[0].rank)
+        take_turn(person) if cards_awarded != []
     end
 
     def provide_turn_information
@@ -86,7 +91,7 @@ class GameInterface
     def set_turn_info(string_to_add)
         @turn_info = @turn_info + string_to_add
     end
-    
+
     def reset_turn_info()
         @turn_info = ""
     end

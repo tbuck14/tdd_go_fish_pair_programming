@@ -24,6 +24,7 @@ class Game
 
     def player_go_fish(player)
         card = deck.deal
+        card = [] if card == nil
         player.add_cards_to_hand([card])
         [card]
     end
