@@ -34,13 +34,13 @@ class GameInterface
         end
         player_asked = ask_for_player(person)
         card_asked_for = ask_for_card(person)
-        ask_player(person,player_asked,card_asked_for)
+        get_cards(person,player_asked,card_asked_for)
     end
 
-    def ask_player(person, asked_player, card_asked)
+    def get_cards(person, asked_player, card_asked)
         cards_awarded = game.player_asks_for_card(person.player,card_asked_for,player_asked)
         set_turn_info("and got #{cards_awarded.count}") if cards_awarded != []
-        cards_awarded = game.player_go_fish(person.player) if cards_awarded = [] 
+        cards_awarded = game.player_go_fish(person.player) if cards_awarded == [] 
         provide_turn_information
         take_turn(person) if game.got_card_asked_for(cards_awarded[0].rank)
     end
@@ -62,9 +62,11 @@ class GameInterface
     def ask_for_card(person)
         loop do
             server.send_message(person.client,"what card do you want to ask for? example: Q")
-            card = wait_for_response(person)
+            card = wait_for_response(person).upcase
             break if RANKS.include?(card) && (person.player.display_hand).include?(card) == false
+            server.send_message(person.client,"not a card you can ask for!")
         end
+        card
     end
 
     def hash_names_to_people()

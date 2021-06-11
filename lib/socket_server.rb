@@ -38,12 +38,20 @@ class SocketServer
     end
 
     def create_gameInterface_if_possible()
-        
+        if people.count == 3
+            gameInterface = GameInterface.new(people,self)
+            game_interfaces.push(gameInterface)
+            reset_people
+        end
+        gameInterface
     end
 
+    def reset_people()
+        @people = []
+    end
     #PRIVATE HELPER METHODS
     def welcome_client_get_name(client)
-        client.puts('Welcome! enter name: ')
+        client.puts('Welcome to Go Fish! enter your name: ')
         name = ''
         until name != '' 
             name = read_message(client) 

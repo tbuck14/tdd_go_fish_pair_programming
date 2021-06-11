@@ -10,6 +10,15 @@ describe "SocketServer" do
         server.stop
     end
 
+    def make_and_accept_clients(number)
+        number.times do 
+            client = TCPSocket.new('localhost',server.port_number)
+            clients.push(client)
+            client.puts('Trevor')
+            server.accept_client
+        end
+    end
+
     context '#accept_client' do 
         it 'accepts a client' do 
             client = TCPSocket.new('localhost',server.port_number)
@@ -41,4 +50,21 @@ describe "SocketServer" do
         end
     end
 
+    context '#create_gameInterface_if_possible' do
+        it 'creates a game interface if 3 clients connect' do
+            make_and_accept_clients(3)
+            game_interface = server.create_gameInterface_if_possible()
+            expect(server.game_interfaces.count).to eq 1
+        end
+        it 'does not create a game if less than three players are connected' do 
+            make_and_accept_clients(2)
+            server.create_gameInterface_if_possible()
+            expect(server.game_interfaces.count).to eq 0 
+        end
+        it 'clears array of people after a game interface is made' do 
+            make_and_accept_clients(3)
+            game_interface = server.create_gameInterface_if_possible()
+            expect(server.people.count).to eq 0
+        end
+    end
 end
