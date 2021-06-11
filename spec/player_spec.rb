@@ -65,4 +65,13 @@ describe 'Player' do
             expect(player.try_to_lay_book()).to eq nil
         end
     end
+    
+    context '#display_hand' do 
+        it 'displays a players hand' do 
+            cards = [Card.new('2'),Card.new('3'),Card.new('2'),Card.new('Q'),Card.new('A')]
+            player = Player.new()
+            player.add_cards_to_hand(cards)
+            puts player.display_hand
+        end
+    end
 end

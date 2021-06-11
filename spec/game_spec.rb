@@ -1,5 +1,6 @@
 require_relative '../lib/game'
-
+require_relative '../lib/player'
+require_relative '../lib/card'
 
 describe 'Game' do 
 
@@ -65,6 +66,18 @@ describe 'Game' do
             game.players[0].add_cards_to_hand([Card.new('A'),Card.new('A'),Card.new('A'),Card.new('K')])
             game.player_asks_for_card(game.players[1], 'A',game.players[0])
             expect(game.players[1].hand.count).to eq 3
+        end
+    end
+    context  '#got_card_asked_for' do
+        it 'returns true if the card matches the card asked for' do
+            game.players[1].add_cards_to_hand([Card.new('3')])
+            game.player_asks_for_card(game.players[0],'3',game.players[1])
+            expect(game.got_card_asked_for('3')).to eq true
+        end 
+        it 'returns false if the card does not match the card asked for' do
+            game.players[1].add_cards_to_hand([Card.new('2')])
+            game.player_asks_for_card(game.players[0],'3',game.players[1])
+            expect(game.got_card_asked_for('2')).to eq false
         end
     end
 

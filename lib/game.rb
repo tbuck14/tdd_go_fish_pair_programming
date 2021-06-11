@@ -1,8 +1,9 @@
 class Game
-    attr_reader :players, :deck
+    attr_reader :players, :deck, :card_asked_for
     def initialize(players)
         @players = players
         @deck = Deck.new()
+        @card_asked_for = nil
     end
 
     def start()
@@ -14,6 +15,7 @@ class Game
     end
 
     def player_asks_for_card(player,card_rank,player_asked)
+        set_card_asked_for(card_rank)
         cards = player_asked.give_cards(card_rank)
         player.add_cards_to_hand(cards)
         cards
@@ -23,6 +25,14 @@ class Game
         card = deck.deal
         player.add_cards_to_hand([card])
         card
+    end
+
+    def got_card_asked_for(card_rank)
+        card_asked_for == card_rank
+    end
+
+    def set_card_asked_for(card_rank)
+        @card_asked_for = card_rank
     end
 
     def winners()
@@ -36,10 +46,6 @@ class Game
     end
 
     def game_over?()
-        total_score = 0 
-        players.each do |player|
-            total_score += player.score
-        end
-        total_score == 13
+        players.reduce(0) {|total,player| total + player.score} == 13
     end
 end

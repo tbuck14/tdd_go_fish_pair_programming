@@ -39,8 +39,6 @@ class SocketServer
         
     end
 
-
-
     #PRIVATE HELPER METHODS
     def welcome_client_get_name(client)
         client.puts('Welcome! enter name: ')

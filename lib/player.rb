@@ -9,7 +9,7 @@ class Player
 
     def add_cards_to_hand(cards)
         hand.concat(cards)
-        hand.sort_by {|card| card.value}
+        set_hand(hand.sort_by {|card| card.value})
     end
 
     def give_cards(rank)
@@ -30,6 +30,14 @@ class Player
     def cards_left()
         hand.count
     end 
+
+    def display_hand()
+        displayed_hand = ""
+        hand.each do |card|
+            displayed_hand += " [#{card.rank}]"
+        end
+        displayed_hand
+    end
 
     def increase_score()
         @score += 1
