@@ -21,8 +21,8 @@ class GameInterface
     def play_full_game
         game.start
         until game.game_over? do
-            people.each do |person|
-                
+            people_with_cards = people.select {|person| person.player.cards_left > 0}
+            people_with_cards.each do |person|
                 take_turn(person)
             end
         end
@@ -30,7 +30,6 @@ class GameInterface
 
     def take_turn(person)
         reset_turn_info
-        server.send_message(person.client, "HAND: #{person.player.display_hand}")
         attempt_to_lay_book(person)
         ask_person_for_info(person) if person.player.hand != []
         game.player_go_fish(person.player) if person.player.hand == []
@@ -75,7 +74,7 @@ class GameInterface
     def ask_for_card(person)
         card = ""
         until RANKS.include?(card) && person.player.hand_ranks.include?(card) do
-            server.send_message(person.client,"What card do you want to ask for? example: Q")
+            server.send_message(person.client,"What card? Your Hand: #{person.player.display_hand}")
             card = wait_for_response(person)
             server.send_message(person.client,"not a card you can ask for!") if RANKS.include?(card) == false || person.player.hand_ranks.include?(card) == false
         end

@@ -4,13 +4,13 @@ require_relative '../lib/card'
 
 describe 'Game' do 
 
-    let!(:game) {Game.new([Player.new('stephen',[]),Player.new('ben'),Player.new('dummie')])}
+    let(:game) {Game.new([Player.new('stephen',[]),Player.new('ben'),Player.new('dummie')])}
     context '#start' do 
         it 'deals each player 5 cards' do 
             game.start
-            expect(game.players[0].hand.count).to eq 5
-            expect(game.players[1].hand.count).to eq 5
-            expect(game.players[2].hand.count).to eq 5
+            expect(game.players[0].cards_left).to eq 5
+            expect(game.players[1].cards_left).to eq 5
+            expect(game.players[2].cards_left).to eq 5
         end
     end
 

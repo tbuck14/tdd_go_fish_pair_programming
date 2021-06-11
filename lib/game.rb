@@ -23,10 +23,10 @@ class Game
     end
 
     def player_go_fish(player)
-        card = deck.deal
-        card = [] if card == nil
-        player.add_cards_to_hand([card])
-        [card]
+        card = [deck.deal]
+        card = [] if card == [nil]
+        player.add_cards_to_hand(card)
+        card
     end
 
     def got_card_asked_for(card_rank)
@@ -40,9 +40,9 @@ class Game
     def winners()
         winners = []
         sort_players = players.sort_by {|player| player.score}
-        if sort_players[-1].score > 0
-            winners.push(sort_players[-1])
-            sort_players.each {|player| winners.push player if player.score == sort_players.last.score}
+        if sort_players.last.score != 0 
+            winners.push(sort_players.pop())
+            sort_players.each {|player| winners.push(player) if player.score == winners[0].score}
         end
         winners
     end

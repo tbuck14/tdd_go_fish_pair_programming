@@ -9,11 +9,14 @@ class Player
 
     def add_cards_to_hand(cards)
         hand.concat(cards)
-        set_hand(hand.sort_by {|card| card.value})
+        if cards_left > 1 
+            set_hand(hand.sort_by {|card| card.value}) 
+        end
     end
 
     def give_cards(rank)
-        cards_to_return = hand.reject {|card| card.rank != rank}
+        cards_to_return = []
+        cards_to_return = hand.reject {|card| card.rank != rank} if cards_left != 0 
         set_hand(hand - cards_to_return)
         cards_to_return
     end
@@ -32,9 +35,9 @@ class Player
     end 
 
     def display_hand()
-        displayed_hand = ""
+        displayed_hand = []
         hand.each do |card|
-            displayed_hand += " [#{card.rank}]"
+            displayed_hand.push("#{card.rank}")
         end
         displayed_hand
     end
@@ -46,12 +49,11 @@ class Player
         @score += 1
     end
 
-    #PRIVATE HELPER METHODS 
+    private 
+
     def set_hand(new_hand)
         @hand = new_hand
     end
-
-    
 
     def lay_book(book)
         set_hand(hand - book)
@@ -59,12 +61,11 @@ class Player
 
     def search_for_rank(rank)
         matching_cards = hand.reject {|card| card.rank != rank}
-        if (matching_cards).count == 4
+        if matching_cards.count == 4
             lay_book(matching_cards)
             increase_score
             return matching_cards.first.rank
         end
     end
 
-    private :set_hand, :search_for_rank, :lay_book
 end
