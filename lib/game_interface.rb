@@ -33,7 +33,7 @@ class GameInterface
         server.send_message(person.client, "HAND: #{person.player.display_hand}")
         attempt_to_lay_book(person)
         ask_person_for_info(person) if person.player.hand != []
-        player_go_fish(person.player) if person.player.hand == []
+        game.player_go_fish(person.player) if person.player.hand == []
     end
 
     def ask_person_for_info(person)
@@ -53,7 +53,7 @@ class GameInterface
     def get_cards(person,card_asked, asked_player)
         cards_awarded = game.player_asks_for_card(person.player,card_asked,asked_player)
         set_turn_info("and got #{cards_awarded.count}") if cards_awarded != []
-        player_go_fish(person.player) if cards_awarded == [] 
+        game.player_go_fish(person.player) if cards_awarded == [] 
         provide_turn_information
         take_turn(person) if cards_awarded != []
     end
