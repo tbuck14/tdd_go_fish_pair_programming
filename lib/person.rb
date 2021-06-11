@@ -1,3 +1,5 @@
+require_relative 'player'
+
 class Person
     attr_reader :player, :client, :name
     def initialize(client,name)

@@ -1,4 +1,5 @@
 require_relative 'person'
+require_relative 'game_interface'
 require 'socket'
 class SocketServer
     attr_reader :server, :people, :game_interfaces
@@ -51,7 +52,7 @@ class SocketServer
     end
     #PRIVATE HELPER METHODS
     def welcome_client_get_name(client)
-        client.puts('Welcome to Go Fish! enter your name: ')
+        send_message(client,'Welcome to Go Fish! enter your name: ')
         name = ''
         until name != '' 
             name = read_message(client) 

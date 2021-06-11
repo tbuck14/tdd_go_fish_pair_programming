@@ -1,3 +1,4 @@
+require_relative 'deck'
 class Game
     attr_reader :players, :deck, :card_asked_for
     def initialize(players)
@@ -24,7 +25,7 @@ class Game
     def player_go_fish(player)
         card = deck.deal
         player.add_cards_to_hand([card])
-        card
+        [card]
     end
 
     def got_card_asked_for(card_rank)

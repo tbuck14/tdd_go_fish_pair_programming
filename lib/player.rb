@@ -39,6 +39,9 @@ class Player
         displayed_hand
     end
 
+    def hand_ranks()
+        hand.map{|card| card.rank}
+    end
     def increase_score()
         @score += 1
     end

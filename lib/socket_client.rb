@@ -1,4 +1,6 @@
 require 'socket'
+
+
 class SocketClient 
     attr_reader :socket
     def initialize(port)
