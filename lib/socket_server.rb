@@ -4,7 +4,7 @@ require 'socket'
 class SocketServer
     attr_reader :server, :people, :game_interfaces
     def initialize()
-        @server = TCPServer.new('localhost',port_number)
+        @server = TCPServer.new('10.0.0.185',port_number)
         puts "Server Started"
         @people = []
         @game_interfaces = []
@@ -39,7 +39,7 @@ class SocketServer
     end
 
     def create_gameInterface_if_possible()
-        if people.count == 5
+        if people.count == 3
             gameInterface = GameInterface.new(people,self)
             game_interfaces.push(gameInterface)
             reset_people
