@@ -39,7 +39,7 @@ class SocketServer
     end
 
     def create_gameInterface_if_possible()
-        if people.count == 3
+        if people.count == 5
             gameInterface = GameInterface.new(people,self)
             game_interfaces.push(gameInterface)
             reset_people

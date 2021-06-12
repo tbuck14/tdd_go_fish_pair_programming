@@ -29,6 +29,7 @@ class GameInterface
     end
 
     def take_turn(person)
+        server.send_message(person.client,"Your Hand: #{person.player.display_hand}")
         reset_turn_info
         attempt_to_lay_book(person)
         ask_person_for_info(person) if person.player.hand != []
@@ -74,7 +75,7 @@ class GameInterface
     def ask_for_card(person)
         card = ""
         until RANKS.include?(card) && person.player.hand_ranks.include?(card) do
-            server.send_message(person.client,"What card? Your Hand: #{person.player.display_hand}")
+            server.send_message(person.client,"What card? options: #{person.player.display_hand}")
             card = wait_for_response(person)
             server.send_message(person.client,"not a card you can ask for!") if RANKS.include?(card) == false || person.player.hand_ranks.include?(card) == false
         end
