@@ -19,8 +19,8 @@ class RobotPerson
 
     def make_random_guess(players)
         return_info = []
-        name = players[rand(players.count)]
-        card = player.hand[rand(player.cards_left)].rank
+        name = players.sample
+        card = player.hand.sample.rank
         return_info.push(name)
         return_info.push(card)
         return_info

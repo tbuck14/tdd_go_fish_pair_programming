@@ -14,7 +14,7 @@ class GameInterface
         players = people.map{|person| person.player}
     end
 
-    def get_player_names(excluded_person)
+    def get_player_names_excluding(excluded_person)
         names = people.map{|person| person.name} - [excluded_person.name]
     end
 
@@ -27,7 +27,6 @@ class GameInterface
             end
         end
     end
-
     def robot_take_turn(robot)
         before_turn(robot)
         get_robot_guess(robot) if robot.player.cards_left != 0 
@@ -35,7 +34,7 @@ class GameInterface
     end
 
     def get_robot_guess(robot)
-        guess = robot.make_guess(get_player_names(robot))   
+        guess = robot.make_guess(get_player_names_excluding(robot))   
         player = name_to_person[guess[0]].player #package robot guess like this ['player_name, 'card_rank']
         card = guess[1]
         update_round_info(robot,player,card)
@@ -90,10 +89,10 @@ class GameInterface
 
     def ask_for_player(person)
         name = ""
-        until get_player_names(person).include?(name) do 
-            server.send_message(person.client,"What player would you like to ask? options: #{get_player_names(person)}")
+        until get_player_names_excluding(person).include?(name) do 
+            server.send_message(person.client,"What player would you like to ask? options: #{get_player_names_excluding(person)}")
             name = wait_for_response(person)
-            server.send_message(person.client,"not a valid player name!") if get_player_names(person).include?(name) == false
+            server.send_message(person.client,"not a valid player name!") if get_player_names_excluding(person).include?(name) == false
         end
         name_to_person[name].player
     end

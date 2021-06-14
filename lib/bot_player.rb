@@ -1,8 +1,8 @@
 require 'socket'
 require_relative 'socket_client'
 client = SocketClient.new(3336)
-ROBOT_NAMES = ['dd1','r2d2','zap','bolts','ddr4','killzone','robo','zany','bdot','shocker','buzz','boba','spaz','wal-e','c3p0','terminator','notbot','foxy','freddie','electro','titan','bot','cyclone']
-client.send_message(ROBOT_NAMES[rand(ROBOT_NAMES.count)])
+NAME = 'dumb_bot'
+client.send_message(NAME + rand(999).to_s)
 loop do
     server_message = ""
     until server_message != ""

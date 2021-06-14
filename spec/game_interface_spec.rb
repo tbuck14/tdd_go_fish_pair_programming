@@ -17,13 +17,13 @@ describe 'GameInterface' do
             expect(game_interface.get_players).to match_array(players)
         end
     end
-    context '#get_player_names' do 
+    context '#get_player_names_excluding' do 
         it 'returns a list of player names excluding the player whose turn it is' do
             person = MockPerson.new(Player.new(),'trevor')
             people = [MockPerson.new(person,'trevor'),MockPerson.new(Player.new(),'stephen'),MockPerson.new(Player.new(),'roy')]
             game_interface = GameInterface.new(people, 'server')
-            expect(game_interface.get_player_names(person)).to match_array(['stephen','roy'])
-            
+            expect(game_interface.get_player_names_excluding(person)).to match_array(['stephen','roy'])
+
         end
     end
 end
