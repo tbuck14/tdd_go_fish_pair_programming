@@ -67,4 +67,12 @@ describe "SocketServer" do
             expect(server.people.count).to eq 0
         end
     end
+
+    context '#populate_people' do 
+        it 'adds enough robot players to the people array so that a game can be started' do 
+            expect(server.create_gameInterface_if_possible).to eq nil
+            server.populate_people()
+            expect(server.create_gameInterface_if_possible).to_not eq nil
+        end
+    end
 end

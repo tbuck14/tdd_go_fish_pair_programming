@@ -19,7 +19,6 @@ class GameInterface
     end
 
     def play_full_game
-        game.start
         until game.game_over? do
             people_with_cards = people.select {|person| person.player.cards_left > 0}
             people_with_cards.each do |person|
