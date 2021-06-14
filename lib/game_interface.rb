@@ -30,12 +30,16 @@ class GameInterface
 
     def robot_take_turn(robot)
         before_turn(robot)
-        guess = robot.make_guess(get_player_names(robot))
+        get_robot_guess(robot) if robot.player.cards_left != 0 
+        game.player_go_fish(robot.player) if robot.player.cards_left == 0
+    end
+
+    def get_robot_guess(robot)
+        guess = robot.make_guess(get_player_names(robot))   
         player = name_to_person[guess[0]].player #package robot guess like this ['player_name, 'card_rank']
         card = guess[1]
         update_round_info(robot,player,card)
         get_cards(robot,card,player)
-        game.player_go_fish(robot.player) if robot.player.cards_left == 0
     end
 
     def before_turn(person)
