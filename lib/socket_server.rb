@@ -22,7 +22,7 @@ class SocketServer
 
     def accept_client()
         client = server.accept_nonblock
-        # start_server_timeout_count
+        start_server_timeout_count
         name = welcome_client_get_name(client)
         person = Person.new(client,name)
         people.push(person)
@@ -43,7 +43,7 @@ class SocketServer
 
     def start_server_timeout_count()
         Thread.new do
-            sleep(60)
+            sleep(30)
             populate_people()
         end
     end

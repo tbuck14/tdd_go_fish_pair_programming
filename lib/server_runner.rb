@@ -12,12 +12,12 @@ loop do
     if gameInterface
         Thread.new(gameInterface) do |gameInterface|  
             gameInterface.people.each do |person|
-                server.send_message(person.client,"Game Starting") #if person is not a robot
+                server.send_message(person.client,"Game Starting") if person.robot == false#if person is not a robot
             end
             gameInterface.game.start
             gameInterface.play_full_game
             gameInterface.people.each do |person|
-                server.send_message(person.client,"The winner is: #{get_winner_names(gameInterface.game.winners)}") #if person is not a robot
+                server.send_message(person.client,"The winner is: #{get_winner_names(gameInterface.game.winners)}") if person.robot == false #if person is not a robot
             end
         end
     end

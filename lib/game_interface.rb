@@ -22,15 +22,30 @@ class GameInterface
         until game.game_over? do
             people_with_cards = people.select {|person| person.player.cards_left > 0}
             people_with_cards.each do |person|
-                take_turn(person)
+                take_turn(person) if person.robot == false
+                robot_take_turn(person) if person.robot
             end
         end
     end
 
-    def take_turn(person)
-        server.send_message(person.client,"Your Hand: #{person.player.display_hand}")
+    def robot_take_turn(robot)
+        before_turn(robot)
+        guess = robot.make_guess(get_player_names(robot))
+        player = name_to_person[guess[0]].player #package robot guess like this ['player_name, 'card_rank']
+        card = guess[1]
+        update_round_info(robot,player,card)
+        get_cards(robot,card,player)
+        game.player_go_fish(robot.player) if robot.player.cards_left == 0
+    end
+
+    def before_turn(person)
         reset_turn_info
         attempt_to_lay_book(person)
+    end
+
+    def take_turn(person)
+        server.send_message(person.client,"Your Hand: #{person.player.display_hand}")
+        before_turn(person)
         ask_person_for_info(person) if person.player.hand != []
         game.player_go_fish(person.player) if person.player.hand == []
     end
@@ -38,10 +53,14 @@ class GameInterface
     def ask_person_for_info(person)
         player_asked = ask_for_player(person) 
         card_asked_for = ask_for_card(person)
-        set_turn_info("#{person.name} asked #{player_asked.name} for a #{card_asked_for} ")
+        update_round_info(person,player_asked,card_asked_for)
         get_cards(person,card_asked_for,player_asked)
     end
 
+    def update_round_info(person,player_asked,card_asked_for)
+        set_turn_info("#{person.name} asked #{player_asked.name} for a #{card_asked_for} ")
+    end
+    
     def attempt_to_lay_book(person)
         book = person.player.try_to_lay_book
         if book != nil
@@ -54,11 +73,15 @@ class GameInterface
         set_turn_info("and got #{cards_awarded.count}") if cards_awarded != []
         game.player_go_fish(person.player) if cards_awarded == [] 
         provide_turn_information
-        take_turn(person) if cards_awarded != []
+        take_turn(person) if cards_awarded != [] && person.robot == false
+        robot_take_turn(person) if cards_awarded != [] && person.robot
     end
 
     def provide_turn_information
-        people.each {|person| server.send_message(person.client, turn_info)}
+        people.each  do |person| 
+            server.send_message(person.client, turn_info) if person.robot == false
+            person.collect_round_info(turn_info) if person.robot
+        end
     end
 
     def ask_for_player(person)
